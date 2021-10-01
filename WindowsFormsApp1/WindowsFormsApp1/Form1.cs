@@ -58,5 +58,14 @@ namespace WindowsFormsApp1
             
                 }
         }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            var töröl = listBox1.SelectedItem;
+            if (töröl != null)
+            {
+                users.Remove((User)töröl);
+            }
+        }
     }
 }
