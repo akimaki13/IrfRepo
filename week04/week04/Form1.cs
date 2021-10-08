@@ -33,6 +33,23 @@ namespace week04
             Flat = context.Flat.ToList();
         }
 
+        private string GetCell(int x, int y)
+        {
+            string ExcelCoordinate = "";
+            int dividend = y;
+            int modulo;
+
+            while (dividend > 0)
+            {
+                modulo = (dividend - 1) % 26;
+                ExcelCoordinate = Convert.ToChar(65 + modulo).ToString() + ExcelCoordinate;
+                dividend = (int)((dividend - modulo) / 26);
+            }
+            ExcelCoordinate += x.ToString();
+
+            return ExcelCoordinate;
+        }
+
         private void CreateExcel() 
         {
             try
@@ -43,7 +60,7 @@ namespace week04
 
                 xlSheet = xlWB.ActiveSheet;
 
-                // CreateTable(); 
+                CreateTable(); 
 
                 xlApp.Visible = true;
                 xlApp.UserControl = true;
@@ -58,6 +75,58 @@ namespace week04
                 xlWB = null;
                 xlApp = null;
             }
+        }
+
+        private void CreateTable() 
+        {
+            string[] headers = new string[] 
+            {
+                "Kód",
+                "Eladó",
+                "Oldal",
+                "Kerület",
+                "Lift",
+                "Szobák száma",
+                "Alapterület (m2)",
+                "Ár (mFt)",
+                "Négyzetméter ár (Ft/m2)"
+            };
+
+            for (int i = 0; i < headers.Length; i++)
+            {
+                xlSheet.Cells[1, i + 1] = headers[i];
+            }
+
+            object[,] values = new object[Flat.Count, headers.Length];
+
+            int counter = 0;
+
+            foreach (Flat f in Flat)
+            {
+                values[counter, 0] = f.Code;
+                values[counter, 1] = f.Vendor;
+                values[counter, 2] = f.Side;
+                values[counter, 3] = f.District;
+                if (f.Elevator == true) values[counter, 4] = "Van";
+                else values[counter, 4] = "Nincs";
+                values[counter, 5] = f.NumberOfRooms;
+                values[counter, 6] = f.FloorArea;
+                values[counter, 7] = f.Price;
+                values[counter, 8] = "=" + GetCell(counter + 2, 8) + "+1000000/" + GetCell(counter + 2, 7);
+                counter++;
+            }
+
+            xlSheet.get_Range(
+            GetCell(2, 1),
+            GetCell(1 + values.GetLength(0), values.GetLength(1))).Value2 = values;
+
+
+
+
+
+
+
+
         }
 
 
