@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,6 +17,7 @@ namespace Week05
         List<Tick> Ticks;
         PortfolioEntities context = new PortfolioEntities();
         List<PortfolioItem> Portfolio = new List<PortfolioItem>();
+        
 
         public Form1()
         {
@@ -66,6 +68,23 @@ namespace Week05
                 value += (decimal)last.Price * item.Volume;
             }
             return value;
+        }
+
+        private void Mentes() 
+        {
+            SaveFileDialog sf = new SaveFileDialog();
+            sf.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
+            if (sf.ShowDialog()==DialogResult.OK)
+            {
+                using (StreamWriter sw=new StreamWriter(sf.FileName))
+                {
+                    sw.WriteLine("Időszak\tNyereség");
+                    for (int i = 0; i < earnings.Count; i++)
+                    {
+                        sw.WriteLine((i + 1).ToString() + "\t" + earnings[i]);
+                    }
+                }
+            }
         }
     }
 }
