@@ -24,12 +24,13 @@ namespace Week06
         public Form1()
         {
             InitializeComponent();
-            GetExchangeRatesRequest();
             dataGridView1.DataSource = Rates;
-            Feldolgozas();
+            string xmlstring = GetExchangeRatesRequest();
+            Feldolgozas(xmlstring);
+            
         }
 
-        public void GetExchangeRatesRequest()
+        public string  GetExchangeRatesRequest()
         {
             var mnbService = new MNBArfolyamServiceSoapClient();
 
@@ -42,16 +43,18 @@ namespace Week06
 
             var response = mnbService.GetExchangeRates(request);
 
-            var result = response.GetExchangeRatesResult;
+            string result = response.GetExchangeRatesResult;
+
+            return result;
 
             
 
         }
 
-        public void Feldolgozas()
+        public void Feldolgozas(string input)
         {
             var xml = new XmlDocument();
-            xml.LoadXml(result);
+            xml.LoadXml(input);
 
             foreach (XmlElement element in xml.DocumentElement)
             {
