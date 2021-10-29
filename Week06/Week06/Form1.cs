@@ -13,13 +13,16 @@ namespace Week06
 {
     public partial class Form1 : Form
     {
-        
 
+        BindingList<RateData> Rates = new BindingList<RateData>();
+
+
+        
         public Form1()
         {
             InitializeComponent();
             GetExchangeRatesRequest();
-
+            dataGridView1.DataSource = Rates.ToList();
         }
 
         private void GetExchangeRatesRequest()
