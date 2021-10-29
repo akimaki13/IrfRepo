@@ -19,13 +19,33 @@ namespace Week06
 
         BindingList<RateData> Rates = new BindingList<RateData>();
 
+        BindingList<string> Currencies = new BindingList<string>();
         
 
         
         public Form1()
         {
             InitializeComponent();
+            GetCurrencies();
             RefreshData();
+        }
+
+        private void GetCurrencies()
+        {
+            MNBArfolyamServiceSoapClient mnbService = new MNBArfolyamServiceSoapClient();
+            GetCurrenciesRequestBody request = new GetCurrenciesRequestBody();
+            var response = mnbService.GetCurrencies(request);
+            var result = response.GetCurrenciesResult;
+            XmlDocument xml = new XmlDocument();
+            xml.LoadXml(result);
+            foreach (XmlElement item in xml.DocumentElement.ChildNodes[0])
+            {
+                string newItem = item.InnerText;
+                Currencies.Add(newItem);
+            }
+
+            comboBox1.DataSource = Currencies;
+
         }
 
         private void RefreshData()
