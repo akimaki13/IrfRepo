@@ -42,6 +42,14 @@ namespace week08
         {
             Left += 1;
         }
+
+        public class BallFactory
+        {
+            public Ball CreateNew()
+            {
+                return new Ball();
+            }
+        }
     }
 
 
