@@ -1,4 +1,4 @@
-﻿using NUnit.Framework;
+﻿
 using System;
 using System.Activities;
 using System.Collections.Generic;
@@ -54,13 +54,7 @@ namespace UnitTestExample.Controllers
             return true;
         }
 
-        var accountController = new AccountController();
-
-        // Act
-        var actualResult = accountController.ValidateEmail(email);
-
-        // Assert
-        Assert.AreEqual(expectedResult, actualResult);
+        
 
 
     }
