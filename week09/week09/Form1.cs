@@ -27,23 +27,6 @@ namespace week09
             Population = GetPopulation(@"C:\Temp\nép.csv");
             BirthProbabilities = GetBirth(@"C:\Temp\születés.csv");
             DeathProbabilities = GetDeath(@"C:\Temp\halál.csv");
-
-            for (int year = 2005; year <= 2024; year++)
-            {
-                for (int i = 0; i < Population.Count; i++)
-                {
-                    SimStep(int year, Person person);
-                }
-
-                int nbrOfMales = (from x in Population
-                                  where x.Gender == Gender.Male && x.IsAlive
-                                  select x).Count();
-                int nbrOfFemales = (from x in Population
-                                    where x.Gender == Gender.Female && x.IsAlive
-                                    select x).Count();
-                Console.WriteLine(
-                    string.Format("Év:{0} Fiúk:{1} Lányok:{2}", year, nbrOfMales, nbrOfFemales));
-            }
         }
 
         public List<Person> GetPopulation(string csvpath)
@@ -138,5 +121,30 @@ namespace week09
             }
         }
 
+        private void Simulation() 
+        {
+            for (int year = 2005; year <= 2024; year++)
+            {
+                for (int i = 0; i < Population.Count; i++)
+                {
+                    SimStep(int year, Person person);
+                }
+
+                int nbrOfMales = (from x in Population
+                                  where x.Gender == Gender.Male && x.IsAlive
+                                  select x).Count();
+                int nbrOfFemales = (from x in Population
+                                    where x.Gender == Gender.Female && x.IsAlive
+                                    select x).Count();
+                Console.WriteLine(
+                    string.Format("Év:{0} Fiúk:{1} Lányok:{2}", year, nbrOfMales, nbrOfFemales));
+            }
+
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Simulation();
+        }
     }
 }
